@@ -1,0 +1,554 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "New API",
+        "version": "1.0.0",
+        "description": "This is a swagger ui for out trennkodus API"
+    },
+    "paths": {
+        "/exercises": {
+            "get": {
+                "tags": [
+                    "Exercises"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exercise"
+                                },
+                                "examples": {
+                                    "List of exercises": {
+                                        "value": {
+                                            "name": "some text",
+                                            "set": 0,
+                                            "repesition": 60,
+                                            "id": 21
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Get all Exercise names"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewExercise"
+                            },
+                            "examples": {
+                                "NewExercise": {
+                                    "value": {
+                                        "name": "some text",
+                                        "set": 56,
+                                        "repesition": 24
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "Exercises"
+                ],
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "location": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Location of created object"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exercise"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Add new exercise"
+            }
+        },
+        "/exercises/{id}": {
+            "get": {
+                "tags": [
+                    "details"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "Full details of a given exercise": {
+                                        "value": {
+                                            "id": 1,
+                                            "name": "push-up",
+                                            "repetition": 10,
+                                            "set": 3
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns full details of a given id exercise"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "Exercise /w+ was not found": {
+                                        "value": {
+                                            "error": "Exercise \\w+ was not found in exercise array."
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Exercise was not found in exercises array"
+                    }
+                },
+                "operationId": "id",
+                "summary": "Get full details of a exercise",
+                "description": "Returns full details of a given id exercise"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewExercise"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "exercises"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exercise"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Modify existing exercise"
+            },
+            "delete": {
+                "tags": [
+                    "Exercises"
+                ],
+                "responses": {
+                    "204": {
+                        "content": {
+                            "application/json": {}
+                        },
+                        "description": "Exercise deleted"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "IdError": {
+                                        "value": {
+                                            "error": "ID must be a whole number: esimene"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Incorrect Id"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "NotFound": {
+                                        "value": {
+                                            "error": "Exercise not found"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Exercise not found"
+                    }
+                },
+                "summary": "Remove a exercise"
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "Id of the exercise to be modified",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/training-programs": {
+            "get": {
+                "tags": [
+                    "Training Programs"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                },
+                                "examples": {
+                                    "List of training programs": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "name": "Beginner Program",
+                                                "exercises": [1, 2, 3]
+                                            },
+                                            {
+                                                "id": 2,
+                                                "name": "Advanced Program",
+                                                "exercises": [4, 5, 6]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Get all training programs"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTrainingProgram"
+                            },
+                            "examples": {
+                                "NewTrainingprogram": {
+                                    "value": {
+                                        "name": "chest day",
+                                        "amount": "for every exercise do 3sets and reps 10",
+                                        "exercises":["push-up", "incline push-up", "decline push-up", "diamond push-up", "incline dips"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "Training Programs"
+                ],
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "location": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Location of created object"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Add new training program"
+            }
+        },
+        "/training-programs/{id}": {
+            "get": {
+                "tags": [
+                    "Training Programs"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                },
+                                "examples": {
+                                    "Full details of a given training program": {
+                                        "value": {
+                                            "id": 1,
+                                            "name": "Beginner Program",
+                                            "exercises": [1, 2, 3]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns full details of a given training program"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "ProgramNotFound": {
+                                        "value": {
+                                            "error": "Training program not found"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Training program was not found"
+                    }
+                },
+                "operationId": "getTrainingProgramById",
+                "summary": "Get full details of a training program"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTrainingProgram"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "Training Programs"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Modify existing training program"
+            },
+            "delete": {
+                "tags": [
+                    "Training Programs"
+                ],
+                "responses": {
+                    "204": {
+                        "content": {
+                            "application/json": {}
+                        },
+                        "description": "Training program deleted"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "NotFound": {
+                                        "value": {
+                                            "error": "Training program not found"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Training program not found"
+                    }
+                },
+                "summary": "Remove a training program"
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "Id of the training program to be modified",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        }
+    },
+    "components": {
+        "schemas": {
+            "error": {
+                "title": "Root Type for error",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "error": "Error message."
+                }
+            },
+            "Exercise": {
+                "title": "Root Type for new-exercise",
+                "description": "Creates a new exercise",
+                "required": [
+                    "id",
+                    "name",
+                    "repetisions",
+                    "Sets"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "repetisions": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "Sets": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "id": 67,
+                    "name": "some text",
+                    "repetitions": 43,
+                    "Sets": 9
+                }
+            },
+            "NewExercise": {
+                "description": "Exercise to be saved",
+                "required": [
+                    "name",
+                    "repetitions",
+                    "sets"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Must contain atleast one non-whitespace character",
+                        "type": "string"
+                    },
+                    "sets": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "repetitions": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "TrainingProgram": {
+                "title": "Root Type for training program",
+                "description": "Describes a training program",
+                "required": [
+                    "id",
+                    "name",
+                    "exercises"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "exercises": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "name": "Beginner Program",
+                    "exercises": [1, 2, 3]
+                }
+            },
+            "NewTrainingProgram": {
+                "description": "Training program to be saved",
+                "required": [
+                    "name",
+                    "exercises"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Must contain at least one non-whitespace character",
+                        "type": "string"
+                    },
+                    "exercises": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
